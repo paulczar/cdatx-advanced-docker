@@ -37,16 +37,12 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Docker</h1>
-					<h3>I built a SaaS and I shipped it</h3>
-					<h4>in a single afternoon</h4>
+					<h2>I built a SaaS and I shipped it</h2>
+					<h3>in an afternoon</h3>
+					<h4>and so could you!</h4>
 					<p>
 						<small>Created by <a href="http://tech.paulcz.net">Paul Czarkowski</a> / <a href="http://twitter.com/pczarkowski">@pczarkowski</a></small>
 					</p>
-				</section>
-
-				<section>
-					<h2>About Me</h2>
 				</section>
 
 				<section>
@@ -61,29 +57,13 @@
 				</section>
 
 				<section>
-					<h2>A Racker</h2>
-					<p>But I wasn't when I wrote this.
-				</section>
-
-
-				<section>
-					<h2>Professional expert beginner.</h2>
- 					<img src="http://www.opscode.com/images/logo-chef.png" width="25%">
- 					<img src="http://www.docker.io/static/img/docker-top-logo.png">
- 					<img src="http://www.openstack.org/assets/openstack-logo/openstack-cloud-software-vertical-small.png">
- 					<img src="http://micknelson.files.wordpress.com/2013/06/logo-juju.png">
-				</section>
-
-				<section>
 					<h2>The Problem</h2>
-					<div class='fragment'>
- 					<h3>I want an IRC connection</h3>
+ 					<h3>I want an IRC</h3>
  					<ul>
  						<li>That is connected even when I'm not.
  						<li>That I can connect from any of my machines.
  						<li>That I can read back on conversations I wasn't around for.
  					</ul>
- 					</div>
 				</section>
 
 				<section>
@@ -188,18 +168,19 @@ Adding Server [irc.freenode.net 6667]...
 				<section>
 				<h2>That was easy ... now write a web app</h2>
 				<p>I'm going to be ultra cool and use Node and Mongo!
-				<ul>
+				<ol>
 				 <li class="fragment">Install Node.JS
 				 <li class="fragment">Install MongoDB
 				 <li class="fragment">Find an Auth library to auth against google.
 				 <li class="fragment">...
 				 <li class="fragment">...
 				 <li class="fragment">I just remembered ...  I'm a shit programmer.
+				</ol>
 				</section>
 
 				<section>
 				<h2>Back to the drawing board...</h2>
-				<p class="fragment">Hey look this guy has done something similar for memcached...
+				<p>Hey look this guy has done something similar for memcached...
 				<br><img src="images/memcached.png">
 				</section>
 
@@ -226,38 +207,9 @@ Adding Server [irc.freenode.net 6667]...
 				<section>
 					<h2>Build a dev environment</h2>
 					<pre class="stretch"><code>
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 require "vagrant"
-
-if Vagrant::VERSION < "1.2.1"
-  raise "Use a newer version of Vagrant (1.2.1+)"
-end
-
-
-# Allows us to pick a different box by setting Environment Variables
-BOX_NAME = ENV['BOX_NAME'] || "precise64"
-BOX_URI = ENV['BOX_URI'] || "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
-
 Vagrant.configure("2") do |config|
-  # Cachier - speeds up subsequent runs.
-  # vagrant plugin install vagrant-cachier
-  config.cache.auto_detect = true
-  #config.cache.enable_nfs  = true
-  config.berkshelf.enabled = true
-  # Ensure Chef 11.x is installed for provisioning
-  config.omnibus.chef_version = :latest
-
   config.vm.define :SaasZNC do |config|
-    config.vm.hostname = "SaasZNC"
-    config.vm.box = BOX_NAME
-    config.vm.box_url = BOX_URI
-    config.vm.network :private_network, ip: "33.33.33.33"
-    config.vm.network :forwarded_port, guest: 3000, host: 3000
-    config.ssh.max_tries = 40
-    config.ssh.timeout   = 120
-    config.ssh.forward_agent = true
     config.vm.provision :chef_solo do |chef|
       chef.provisioning_path = "/tmp/vagrant-cache"
       chef.json = {
@@ -275,7 +227,6 @@ Vagrant.configure("2") do |config|
         "recipe[docker::default]"
       ]
     end
-
     config.vm.provision :shell, :inline => <<-SCRIPT
       groupadd docker
       usermod -a -G docker vagrant
@@ -287,26 +238,22 @@ Vagrant.configure("2") do |config|
       rails server -d
 
     SCRIPT
-    config.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--memory", 2048]
-    end
   end
 end
 
 					</pre class="stretch"></code>
-					<p>Vagrant+Chef = Dev Server as Code.
+					<p>Vagrant+Chef = Dev Env as Code.
 					<p class="fragment">Vagrant is amazing.  Use it.
 				</section>
 
 				<section>
-					<h2>Over the course of the next hour...</h2>
+					<h2>Over the course of the next few hours...</h2>
 					<ul>
 						<li class="fragment">Working prototype in Vagrant
 						<li class="fragment">Create Rackspace public cloud instance <br><i>(&lt;3 dev free cloud promo)</i>
 						<li class="fragment">Config server using Chef Enterprise <i>(5 servers free)</i>
-						<li class="fragment">Upload code with scp
-						<li class="fragment">rails server -d -e production
+						<li class="fragment">Write chef cookbook to install ircaas app
+						<li class="fragment">bootstrap cloud instance from cookbook
 						<li class="fragment">http://znc.paulcz.net
 				</section>
 
@@ -342,12 +289,13 @@ done
 
 				<section>
 					<h2>Links</h2>
+					<p><a href="http://znc.paulcz.net">http://znc.paulcz.net</a></p><br>
 					<ul>
 						<li><a href="http://docker.io">Docker</a></li>
-						<li><a href="http://www.memcachedasaservice.com/">Example Memcached SaaS using docker</a></li>
-						<li><a href="http://znc.paulcz.net">my ZNC SaaS</a></li>
 						<li><a href="http://www.vagrantup.com/">Vagrant</a></li>
+						<li><a href="http://www.opscode.com/chef/">Chef</a></li>
 						<li><a href="http://developer.rackspace.com/devtrial/">Rackspace &lt;3 Developers Free Trial</a></li>
+						<li><a href="http://www.memcachedasaservice.com/">Example Memcached SaaS using docker</a></li>
 					</ul>
 				</section>
 
