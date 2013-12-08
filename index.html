@@ -55,67 +55,59 @@
 				</section>
 
 				<section>
-					<h2>SysAdmin...</h2>
+					<h2>Not a DevOp</h2>
+ 					<p>what even is?</p>
  					<p><img src="images/sysadmin.jpg"><br>
 				</section>
 
 				<section>
-					<h2>Corporate slave...</h2>
-					<span class="fragment">
-					<p>But not your typical corporation ...
- 					<p><img src="images/bf4.jpg"><br>
- 					</span>
+					<h2>A Racker</h2>
+					<p>But I wasn't when I wrote this.
 				</section>
 
 
 				<section>
-					<h2>Chef hacker...</h2>
- 					<p><img src="images/Chef_Logo.png" width="25%"><br>
- 					<a href="https://github.com/paulczar/cookbook-openstack-docker">https://github.com/paulczar/cookbook-openstack-docker</a>
-				</section>
-
-				<section>
-					<h2>Also the other kind of Chef...</h2>
- 					<p><img src="images/popup.jpg" width="50%">
-				</section>
-
-				<section>
-					<h2>Best Queso in Austin - 2013</h2>
- 					<p><img src="images/queso.jpg" width="50%">
-				</section>
-
-				<section>
-					<h2>And A Docker Hacker...</h2>
- 					<p><img src="images/docker-repo.png" width="75%">
-				</section>
-
-				<section>
-					<h2>What is docker anyway?</h2>
- 					<p>Urbandictionary.com describes docking as ...
- 					<blockquote class="fragment">a verb describing the act of stretching one mans...</blockquote>
-				</section>
-
-				<section>
-					<h2>What is docker anyway?</h2>
- 					<p><img src="images/docker.png">
+					<h2>Professional expert beginner.</h2>
+ 					<img src="http://www.opscode.com/images/logo-chef.png" width="25%">
+ 					<img src="http://www.docker.io/static/img/docker-top-logo.png">
+ 					<img src="http://www.openstack.org/assets/openstack-logo/openstack-cloud-software-vertical-small.png">
+ 					<img src="http://micknelson.files.wordpress.com/2013/06/logo-juju.png">
 				</section>
 
 				<section>
 					<h2>The Problem</h2>
- 					<h3>I want a persistent IRC connection</h3>
+					<div class='fragment'>
+ 					<h3>I want an IRC connection</h3>
  					<ul>
  						<li>That is connected even when I'm not.
  						<li>That I can connect from any of my machines.
  						<li>That I can read back on conversations I wasn't around for.
  					</ul>
+ 					</div>
 				</section>
 
 				<section>
+				  <h2>to the googles!</h2>
+				  <div class="fragment">
 					<p align="left">There's an OSS App for that - <a href="http://wiki.znc.in/ZNC">http://wiki.znc.in/ZNC</a>
-					<p><q>But I don't want to have to run a server.</q>
+					<p><q>But I would need to host it somewhere.</q>
+					</div>
+					<div class="fragment">
 					<p align="left">There's a SaaS for that - <a href="http://ircrelay.com">http://ircrelay.com</a>
-					<p><q>But I don't want to pay $5 a month because I'm cheap.</q><br><br>
-				  <h3 class="fragment">I bet I could build a SaaS IRC Bouncer using docker...</h3>
+					<p><q>But I don't want to pay $5 a month because I'm cheap.</q><br><br><br>
+				  </div>
+				</section>
+
+				<section>
+				  <h2>The Yak Shave</h2>
+				  <p>I could do that myself!					
+					<p align="left" class="fragment">in a docker container <span class="fragment">in the cloud.</span>
+					<p align="left" class="fragment">behind a web app so my friends can use it too.
+					<p align="left" class="fragment">with a database to track who can access it.
+					<p align="left" class="fragment">Some chef cookbooks to manage the server and deploy the app.
+					<p align="left" class="fragment">...
+					<p align="left" class="fragment">...
+					<p align="left" class="fragment">...
 				</section>
 
 				<section>
@@ -222,12 +214,17 @@ Adding Server [irc.freenode.net 6667]...
 						<li>Ruby on Rails
 						<li>Active Record
 						<li>Calls docker CLI with backtick commands.
-						<li class="fragment">A retard like me can understand it... just.
 					</ul>
 				</section>
 
 				<section>
-					<h2>Add Vagrant + Berkshelf / Chef</h2>
+					<h2>But it doesn't quite work...</h2>
+					<p>If you fix a bug in forked code ... send a PR!
+						<li>https://github.com/jbarbier/SaaS_Memcached/pull/2
+				</section>				
+
+				<section>
+					<h2>Build a dev environment</h2>
 					<pre class="stretch"><code>
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -298,13 +295,15 @@ Vagrant.configure("2") do |config|
 end
 
 					</pre class="stretch"></code>
+					<p>Vagrant+Chef = Dev Server as Code.
+					<p class="fragment">Vagrant is amazing.  Use it.
 				</section>
 
 				<section>
 					<h2>Over the course of the next hour...</h2>
 					<ul>
 						<li class="fragment">Working prototype in Vagrant
-						<li class="fragment">Create Rackspace public cloud instance <br><i>(&lt;3 dev free cloud promo)</i>i>
+						<li class="fragment">Create Rackspace public cloud instance <br><i>(&lt;3 dev free cloud promo)</i>
 						<li class="fragment">Config server using Chef Enterprise <i>(5 servers free)</i>
 						<li class="fragment">Upload code with scp
 						<li class="fragment">rails server -d -e production
@@ -349,18 +348,12 @@ done
 						<li><a href="http://znc.paulcz.net">my ZNC SaaS</a></li>
 						<li><a href="http://www.vagrantup.com/">Vagrant</a></li>
 						<li><a href="http://developer.rackspace.com/devtrial/">Rackspace &lt;3 Developers Free Trial</a></li>
-						<li><a href="https://www.facebook.com/events/231601060322589/">East Austin Oaxaca Popup</a>
 					</ul>
 				</section>
 
 				<section>
 					<h1>THE END</h1>
 					<h3>BY Paul Czarkowski  / @pczarkowski </h3>
-				</section>
-
-				<section>
-					<h2>ps Come eat my food</h2>
- 					<p><img src="images/popup.jpg" width="50%">
 				</section>
 
 			</div>
