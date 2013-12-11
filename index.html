@@ -68,19 +68,19 @@
 
 				<section>
 				  <h2>to the googles!</h2>
+					<div class="fragment">
+					<p align="left">There's a web app for that - <a href="http://ircrelay.com">http://ircrelay.com</a>
+					<p><q>But I don't want to pay $5 a month because I'm cheap.</q><br><br><br>
+				  </div>
 				  <div class="fragment">
 					<p align="left">There's an OSS App for that - <a href="http://wiki.znc.in/ZNC">http://wiki.znc.in/ZNC</a>
 					<p><q>But I would need to host it somewhere.</q>
 					</div>
-					<div class="fragment">
-					<p align="left">There's a SaaS for that - <a href="http://ircrelay.com">http://ircrelay.com</a>
-					<p><q>But I don't want to pay $5 a month because I'm cheap.</q><br><br><br>
-				  </div>
 				</section>
 
 				<section>
-				  <h2>The Yak Shave</h2>
-				  <p>I could do that myself!					
+				  <h2>Shaving the Yak</h2>
+				  <p>I could do that myself!
 					<p align="left" class="fragment">in a docker container <span class="fragment">in the cloud.</span>
 					<p align="left" class="fragment">behind a web app so my friends can use it too.
 					<p align="left" class="fragment">with a database to track who can access it.
@@ -95,8 +95,8 @@
 					<p><a href="https://github.com/paulczar/docker-znc">https://github.com/paulczar/docker-znc</a>
 				</section>
 
-				<section>	
-				  <h3>Dockerfile</h3>				
+				<section>
+				  <h3>Dockerfile</h3>
 					<pre class="stretch"><code>
 # This file creates a container that runs ZNC
 #
@@ -123,11 +123,11 @@ EXPOSE 6667
 
 # Start znc
 CMD ["start-znc"]
-					</code></pre>					
+					</code></pre>
 				</section>
 
-				<section>		
-				  <h3>start-znc</h3>			
+				<section>
+				  <h3>start-znc</h3>
 					<pre class="stretch"><code>
 #!/bin/bash
 
@@ -146,23 +146,23 @@ sed -i "s/IRC_SERVER/$IRC_SERVER/" /opt/znc/configs/znc.conf
 sed -i "s/IRC_PORT/$IRC_PORT/" /opt/znc/configs/znc.conf
 
 znc -f -r -d /opt/znc
-					</code></pre>					
+					</code></pre>
 				</section>
 
-				<section>		
-				  <h3>Run it!</h3>			
+				<section>
+				  <h3>Run it!</h3>
 					<pre><code>
 $ docker run -e ZNC_USER=paultest -e ZNC_PASS=paultest \
       -p 6667 -u znc paulczar/znc start-znc
 Connecting to IRC Server: irc.freenode.net:6667
 ZNC User: paultest
 ZNC Pass: paultest
-Opening Config [/opt/znc/configs/znc.conf]... 
+Opening Config [/opt/znc/configs/znc.conf]...
 Loading Global Module [lastseen]... [/usr/lib/znc/lastseen.so]
-Binding to port [+6667] using ipv4... 
+Binding to port [+6667] using ipv4...
 Loading user [paultest]
-Adding Server [irc.freenode.net 6667]... 
-					</code></pre>					
+Adding Server [irc.freenode.net 6667]...
+					</code></pre>
 				</section>
 
 				<section>
@@ -171,7 +171,7 @@ Adding Server [irc.freenode.net 6667]...
 				<ol>
 				 <li class="fragment">Install Node.JS
 				 <li class="fragment">Install MongoDB
-				 <li class="fragment">Find an Auth library to auth against google.
+				 <li class="fragment">Start writing code
 				 <li class="fragment">...
 				 <li class="fragment">...
 				 <li class="fragment">I just remembered ...  I'm a shit programmer.
@@ -180,8 +180,8 @@ Adding Server [irc.freenode.net 6667]...
 
 				<section>
 				<h2>Back to the drawing board...</h2>
-				<p>Hey look this guy has done something similar for memcached...
-				<br><img src="images/memcached.png">
+				<p>I vaguely remember seeing some guy did a 'try memcache' website using docker.
+				<br><img src="images/memcached.png" class="fragment">
 				</section>
 
 				<section>
@@ -200,9 +200,12 @@ Adding Server [irc.freenode.net 6667]...
 
 				<section>
 					<h2>But it doesn't quite work...</h2>
-					<p>If you fix a bug in forked code ... send a PR!
+					<ul>
+						<li>learn how the site works while bugfixing.
+						<li>If you fix a bug in forked code ... send a PR!
 						<li>https://github.com/jbarbier/SaaS_Memcached/pull/2
-				</section>				
+					</ul>
+				</section>
 
 				<section>
 					<h2>Build a dev environment</h2>
@@ -248,13 +251,13 @@ end
 
 				<section>
 					<h2>Over the course of the next few hours...</h2>
-					<ul>
-						<li class="fragment">Working prototype in Vagrant
-						<li class="fragment">Create Rackspace public cloud instance <br><i>(&lt;3 dev free cloud promo)</i>
-						<li class="fragment">Config server using Chef Enterprise <i>(5 servers free)</i>
-						<li class="fragment">Write chef cookbook to install ircaas app
-						<li class="fragment">bootstrap cloud instance from cookbook
-						<li class="fragment">http://znc.paulcz.net
+					<ul class="fragment">
+						<li>Working prototype in Vagrant
+						<li>Create Rackspace public cloud instance <br><i>(free with dev promo)</i>
+						<li>add server to Chef Enterprise <i>(5 servers free)</i>
+						<li>Write and upload chef cookbook to install ircaas app
+						<li>bootstrap cloud instance from cookbook
+						<li>http://znc.paulcz.net
 				</section>
 
 				<section>
@@ -268,7 +271,7 @@ end
 				<section>
 				  <h2>Stress Test</h2>
 				  <pre><code>
-for i in {1..100}; do 
+for i in {1..100}; do
 	docker run -e ZNC_USER=znctest$i -e ZNC_PASS=znctest$i -d -p 6667 -u znc paulczar/znc start-znc
 done
 				  </code></pre>
