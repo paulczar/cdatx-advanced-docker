@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Hey IDIOT! change your title</title>
+		<title>Container Days ATX - Advanced Docker Training</title>
 
 		<meta name="description" content="description of presentation">
 		<meta name="author" content="Paul Czarkowski">
@@ -46,46 +46,369 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>I did a thing</h2>
-					<h3>so I guess I should talk about it.</h3>
+					<h2>Container Days ATX</h2>
+					<h3>Advanced Docker Training</h3>
 					<p>
 						<small>Created by <a href="http://tech.paulcz.net">Paul Czarkowski</a> / <a href="http://twitter.com/pczarkowski">@pczarkowski</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>I am not a DevOp</h2>
- 					<p>what even is?</p>
+					<h2>Who Am I ?</h2>
  					<p><img src="images/sysadmin.jpg"><br>
 				</section>
 
 				<section>
-					<h2>Title</h2>
- 					<h3>subtest</h3>
- 					<ul class="fragment">
- 						<li>point 1
- 						<li>point 2
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li>App Configuration via ENV or service discovery
+ 						<li>Demo / Workshop
  					</ul>
 				</section>
 
 				<section>
-				  <h2>Code!</h2>
-					<pre class="stretch"><code>
-#!/bin/bash
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li><b>Optimizing Dockerfiles</b>
+ 						<li>Docker vs Config Management
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li>App Configuration via ENV or service discovery
+ 					</ul>
+				</section>
 
-echo This is a pure code slide.
-					</code></pre>
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+					<br><br>
+				  <p><a href="http://tech.paulcz.net/2015/03/optimizing-your-dockerfiles/">Blog Post</a>
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+					<br><br>
+				  <ul>
+				    <li>Docker images are “supposed” to be small and fast.
+				    <li>Software is complicated, languages like Python/Ruby can result in large images.
+				    <li>Dockerfile != $ curl | sudo bash
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+<pre class="stretch"><code>
+FROM ubuntu:latest
+
+ADD . /home/docker
+
+ADD https://dist.torproject.org/torbrowser/4.0.4/tor-browser-linux64-4.0.4_en-US.tar.xz /home/docker/tor.tar.xz
+
+RUN apt-get update && true
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get install -y firefox
+
+RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
+
+RUN useradd -m -d /home/docker docker
+
+RUN cd /home/docker && tar xJf /home/docker/tor.tar.xz
+
+USER docker
+
+CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
+</code></pre>
 				</section>
 
 
 				<section>
-					<h2>Summary slide - you did a thing ... so what ?</h2>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Order Matters</h3>
+					<br><br>
+				  <p>Optimizing your Dockerfile for build cache hits.
+					<br><br>
+				  <ul>
+				    <li>The more cache hits the faster the build
+				    <li>First command to change invalidates all cache
+				    <li>Smart ordering can save minutes
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Order Matters</h3>
+					<br><br>
+				  <p>Sort your commands by
+					<br><br>
+				  <ol>
+				  	<li>Sharable with other images
+				  	<li>Frequency of change
+				  	<li>Time to run
+				</section>
+
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Know your commands</h3>
+					<br><br>
+				  <ul>
+				    <li><b>ADD</b> always invalidates cache
+				    <li><b>WORKDIR</b>, <b>CMD</b> are cheap
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Choose your base images wisely</h3>
+					<br><br>
+				  <ul>
+				    <li>Remember you're using a layered FS
+				    <li>ubuntu:trusty + busybox > 2 x Ubuntu:trusty
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Layers are your friend</h3>
+					<br><br>
+				  <ul>
+				    <li>Each command is a layer
+				    <li>Join <b>RUN</b> commands together with <b>&& \</b>
+				    <li>A shared layer is free for subsequent containers.
+				    <li>Create your own common base image from when lots of shared layers.
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Cheat!</h3>
+					<br><br>
+				  <ul>
+				    <li>Add new changes to bottom of Dockerfile
+				    <li>Once locked in, then move them up.
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+				  <h3>Volume Containers</h3>
+					<br><br>
+				  <p>Use the image of the application that is consuming it as the base for the volume container.</p>
+					<br><br>
+				  <ul>
+				    <li>It's free because it's shared.
+				    <li>Volume container now contains the Data <i>and</i> the Application.
+				</section>
+
+				<section>
+				<img src="images/pop-quiz-hotshot.jpg">
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+<pre class="stretch"><code>
+FROM ubuntu:latest
+
+ADD . /home/docker
+
+ADD https://dist.torproject.org/torbrowser/4.0.4/tor-browser-linux64-4.0.4_en-US.tar.xz /home/docker/tor.tar.xz
+
+RUN apt-get update && true
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get install -y firefox
+
+RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
+
+RUN useradd -m -d /home/docker docker
+
+RUN cd /home/docker && tar xJf /home/docker/tor.tar.xz
+
+USER docker
+
+CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
+</code></pre>
+				</section>
+
+				<section>
+				  <h2>Optimizing Dockerfiles</h2>
+					<br><br>
+					<br><br>
+				  <p>Walkthrough example Dockerfiles on blog...
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li><b>Docker vs Config Management</b>
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li>App Configuration via ENV or service discovery
+ 						<li>Demo / Workshop
+ 					</ul>
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<br><br>
+					<p>"I don't need Config Management now that I have Docker."
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<br><br><img src="images/cm_killer.png">
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<br><br>
+					<p>You probably shouldn't be trusting docker [yet] for managing long term persistent data.
+					<br><br>
 					<ul>
-					 <li>1
-					 <li>2
+					  <li>Volume Containers
+					  <li>Volume mounts from Host
 					</ul>
 				</section>
 
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<br><br>
+					<p>Persistent data stores and other infrastructure services have to be managed by something.
+					<br><br>
+					<ul>
+					  <li>Chef recipes to spin up databases, Key Value stores, etc.
+					  <li>Ansible or Cloud Formations for RDS, ELB, etc.
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<h3>Chef and Docker</h3>
+					<br><br>
+					[the tools, not the companies]<br>have a great history of working together.
+					<p><a href="https://supermarket.chef.io/cookbooks/docker">https://supermarket.chef.io/cookbooks/docker</a>
+					<br><br>
+					<pre><code>include_recipe "docker::default"</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<pre class='stretch'><code>
+docker_image 'registry' do
+  action [:pull]
+end
+
+docker_container 'registry' do
+  detach  true
+  port    '5000:5000'
+  action [:run]
+end
+
+node['my_app']['images'].each do |image|
+  docker_image image do
+    action [:pull]
+  end
+  docker_image image do
+    repository "#{node['my_app']['registry']}/#{image}"
+    registry   node['my_app']['registry']
+    action [:tag, :push]
+  end
+end
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<pre class='stretch'><code>
+git "#{Chef::Config[:file_cache_path]}/docker-testcontainerd" do
+  repository 'git@github.com:bflad/docker-testcontainerd.git'
+  notifies :build, 'docker_image[tduffield/testcontainerd]', :immediately
+end
+
+docker_image 'tduffield/testcontainerd' do
+  action :pull_if_missing
+end
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<br><br>
+					<p>Almost anything that can be done with docker can be done via the docker cookbook.
+					<p>Puppet and Ansible both have a similar story.
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<h3>Config Management in the container ?</h3>
+					<br><br>
+					  <p>You probably shouldn't...
+					  <br>But if it makes sense in your use case ... go for it.
+					  <br><br>Consider <a href="https://docs.chef.io/containers.html">Chef for Containers</a> if you want to do this, it will
+					  help deal with managing services etc.
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<h3>Config Management to build images ?</h3>
+					<br><br>
+					<p>If you're already using a tool like Packer to create images with Config Management, you can probably switch it to build Docker images very easily.
+				</section>
+
+
+				<section>
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li><b>Logging, Monitoring, and Metrics</b>
+ 						<li>Running multiple processes in a container
+ 						<li>App Configuration via ENV or service discovery
+ 						<li>Demo / Workshop
+ 					</ul>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li><b>Running multiple processes in a container</b>
+ 						<li>App Configuration via ENV or service discovery
+ 						<li>Demo / Workshop
+ 					</ul>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li><b>App Configuration via ENV or service discovery</b>
+ 						<li>Demo / Workshop
+ 					</ul>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li>Logging, Monitoring, and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li>App Configuration via ENV or service discovery
+ 						<li><b>Demo / Workshop</b>
+ 					</ul>
+				</section>
 
 				<section>
 					<h2>Links</h2>
