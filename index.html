@@ -345,9 +345,10 @@ end
 					<h3>Config Management in the container ?</h3>
 					<br><br>
 					  <p>You probably shouldn't...
-					  <br>But if it makes sense in your use case ... go for it.
-					  <br><br>Consider <a href="https://docs.chef.io/containers.html">Chef for Containers</a> if you want to do this, it will
+					  <p>But if it makes sense in your use case ... go for it.
+					  <p>Consider <a href="https://docs.chef.io/containers.html">Chef for Containers</a> if you want to do this, it will
 					  help deal with managing services etc.
+					  <p><a href="http://ringo.de-smet.name/2015/03/keep-chef-out-of-your-docker-containers/">Run Chef from a volume mount</a> so that it doesn't actually live in your container.
 				</section>
 
 				<section>
@@ -355,6 +356,18 @@ end
 					<h3>Config Management to build images ?</h3>
 					<br><br>
 					<p>If you're already using a tool like Packer to create images with Config Management, you can probably switch it to build Docker images very easily.
+				</section>
+
+				<section>
+					<h2>Docker vs Config Management</h2>
+					<h3>ChefDK in a container?</h3>
+					<br><br>
+					<p>If you're like me and run an OS that's not well supported by ChefDK ... run it in a container.
+					<pre class="stretch"><code>
+$ docker run -d -v ~/chef/cookbook:/cookbook --name chefdk spheromak/docker-chefdk sleep 6000000
+$ docker exec -ti chefdk bundle install
+$ docker exec -ti chefdk rake test
+					</code></pre>
 				</section>
 
 				<section>
