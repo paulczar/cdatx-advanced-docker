@@ -64,7 +64,7 @@
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li>Docker vs Config Management
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li>Running multiple processes in a container
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
@@ -77,7 +77,7 @@
  					<ul>
  						<li><b>Optimizing Dockerfiles</b>
  						<li>Docker vs Config Management
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li>Running multiple processes in a container
  						<li>App Configuration via ENV or service discovery
  					</ul>
@@ -244,7 +244,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li><b>Docker vs Config Management</b>
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li>Running multiple processes in a container
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
@@ -357,18 +357,118 @@ end
 					<p>If you're already using a tool like Packer to create images with Config Management, you can probably switch it to build Docker images very easily.
 				</section>
 
-
 				<section>
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li>Docker vs Config Management
- 						<li><b>Logging, Monitoring, and Metrics</b>
+ 						<li><b>Logging and Metrics</b>
  						<li>Running multiple processes in a container
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
  					</ul>
+				</section>
+
+				<section>
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>This used to be hard.   It's a lot less hard now.
+				</section>
+
+				<section>
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>Try your very best not to ever log to a file in the container.  Otherwise you will probably face logfile management issues.
+				</section>
+
+				<section>
+					<h2><b><b>Logging</b></b> and Metrics</h2>
+					<br><br>
+					<p><a href="https://github.com/gliderlabs/logspout">Logspout</a> by @progrium
+					<ul>
+					  <li>Runs in a container, watches the docker log stream
+					  <li>all stdout/sderr is seen by logspout
+					  <li>can be set to forward to a syslog server.
+ 					</ul>
+					<pre><code>
+$ docker run -v=/var/run/docker.sock:/tmp/docker.sock \
+		progrium/logspout \
+		syslog://logs.papertrailapp.com:55555
+					</code></pre>
+				</section>
+
+				<section>
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>But my app doesn't log to stdout/stderr.
+					<div class="fragment">
+					<p>It does now!
+					<pre><code>
+# /etc/nginx/nginx.conf
+worker_processes 1;
+daemon off;
+user app app;
+pid /app/nginx.pid;
+error_log /dev/stderr;
+access_log /dev/stdout;
+...
+					</code></pre>
+					</div>
+				</section>
+
+				<section>
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>But seriously I can't configure it to log to /dev/stdout
+					<br><br>
+					<ul>
+					  <li>symlink /dev/stdout to the known location of logfile.
+					  <li>run syslog in container, push directly to your syslog server.
+					  <li>logspout will hopefully soon also include a syslog server.
+					  <li>run a volume container and mount in path for logs
+					  <li>log to volume mount from host.
+				</section>
+
+				<section>
+					<h2>Logging and <b>Metrics</b></h2>
+					<br><br>
+					<ul>
+					  <li>Docker is a wrapper for LXC.
+					  <li>LXC exposes metrics in /proc
+					  <li>Example - /sys/fs/cgroup/memory/lxc/[longid]/
+					  <li>Hard to track where all of these metrics live.
+					<p>
+				</section>
+
+				<section>
+					<h2>Logging and <b>Metrics</b></h2>
+					<br><br>
+					<p><a href="https://github.com/google/cadvisor">CAdvisor</a> to the rescue.
+					<pre class="stretch"><code>
+sudo docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=8080:8080 \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:latest
+  			</code></pre>
+				</section>
+
+				<section>
+					<h2>Logging and <b>Metrics</b></h2>
+					<h3>CAdvisor</h3>
+					<br><br>
+					<p>Cadvisor natively support Docker and most linux containers based on LXC
+					<BR><BR>
+					<ul>
+					  <li>Web UI - Demo Later
+					  <li>Rest API
+					  <li>InfluxDB and Prometheus outputs.
+					  <li>Probably needs to support Graphite.
 				</section>
 
 				<section>
@@ -377,7 +477,7 @@ end
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li>Docker vs Config Management
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li><b>Running multiple processes in a container</b>
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
@@ -385,12 +485,69 @@ end
 				</section>
 
 				<section>
+					<h2>Multiple Processes</h2>
+					<h3></h3>
+					<br><br>
+					<p>There are times when you need to run multiple processes in a container.
+					<p>Ignore the nay-sayers ... this is OK.
+				</section>
+
+				<section>
+					<h2>Multiple Processes</h2>
+					<h3>Backgrounded in a start script</h3>
+					<br><br>
+					<pre stretch="true"><code>
+#!/bin/boot
+
+mysqld_safe &
+/usr/bin/hhvm --config /etc/hhvm/server.ini --user app -m server &
+apache2 -DFOREGROUND
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Multiple Processes</h2>
+					<h3>Backgrounded in a start script</h3>
+					<br><br>
+					<p>Problems
+					<ul>
+					  <li>Any process could die, container would still run.
+					  <li>Zombie Processes ( [defunc] )
+					  <li>Trying to resolve a solved problem ( init systems )
+					  <li>use exec any time calling "pid 1" app from script in docker.
+  				</ul>
+				</section>
+
+				<section>
+					<h2>Multiple Processes</h2>
+					<h3>Init system ... Runit</h3>
+					<br><br>
+					<ul>
+					  <li>Simple lightweight init system
+					  <li>place executable script in /etc/services/[NAME]/run
+					  <li>restarts processes on exit/crash
+					  <li>`$ docker exec wordpress service apache2 restart`
+					  <li>still has Zombie Process issue.
+				</section>
+
+				<section>
+					<h2>Zombie Processess</h2>
+					<br><br>
+					<p><a href="https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/">Docker and the pid 1 zombie reaping problem</a>
+					<ul>
+					  <li>When process dies, turns into zombie process.
+					  <li>Parent process must explicitly wait for child process termination.
+					  <li>Is this really a big deal?  Probably not...
+					  <li>However it can be avoided - <a href="https://github.com/phusion/baseimage-docker/blob/master/image/bin/my_init">Phusion - my_init</a>
+				</section>
+
+  			<section>
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li>Docker vs Config Management
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li>Running multiple processes in a container
  						<li><b>App Configuration via ENV or service discovery</b>
  						<li>Demo / Workshop
@@ -398,16 +555,120 @@ end
 				</section>
 
 				<section>
+					<h2>App Configuration</h2>
+					<h3>via ENV or service discovery</h3>
+					<br><br>
+					<p>I have an application in a container ... but how do I actually configure it ?
+				</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>During `docker build`</h3>
+					<br><br>
+					<p>This is the simplest use case, if your configuration file is very static just use ADD in your `Dockerfile` to put it in the correct place.
+				</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>via volume mount</h3>
+					<br><br>
+					<p>You can also mount it in from your host ( useful if already using CM to write the config file on the host ).
+					<pre><code>
+docker run -d -v /my/app/apache2/httpd.conf:/etc/apache2/httpd.conf myapp
+					</code></pre>
+					<p>It's OK to do this, but be aware of the potential security implications.
+				</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>As part of a start script</h3>
+					<br><br>
+					<pre><code>
+#!/bin/bash
+PORT=${PORT:-5000}
+sed -i "s/xxxPORTxxx/$PORT/" /etc/apache2/httpd.conf
+exec apache2 -DFOREGROUND
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
+					<br><br>
+					<ul>
+					<li>lightweight templating engine written in GO.
+					<li>Take key/value pairs from a number of supported storage engines.
+					<li>Environment Variables, ETCD, Consular, etc.
+				</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
+					<br><br>
+					<pre class="stretch"><code>
+FROM ubuntu:trusty
+RUN \
+  curl -sSL -o /usr/local/bin/etcdctl \
+  		https://s3-us-west-2.amazonaws.com/opdemand/etcdctl-v0.4.6 \
+  && chmod +x /usr/local/bin/etcdctl \
+  && curl -sSL -o /usr/local/bin/confd \
+  		https://github.com/kelseyhightower/confd/releases/download/v0.7.1/confd-0.7.1-linux-amd64 \
+  && chmod +x /usr/local/bin/confd
+  				</code></pre>
+  			</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
+					<br><br>
+					<pre class="stretch"><code>
+#!/bin/bash
+set -xeo pipefail
+BACKEND=${BACKEND:-env}
+until confd -onetime -backend=${BACKEND} -confdir=/etc/confd	; do
+  echo "echo ==> ${APP_NAME}: waiting for confd to write initial templates..."
+  sleep 1
+done
+
+exec apache2 -DFOREGROUND
+  				</code></pre>
+  			</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
+					<br><br>
+					<pre><code>
+$ docker run -d -p 8080 \
+  -e APACHE_PORT=8080 -e APACHE_ROOT=/app/web \
+  apache /app/bin/boot
+  				</code></pre>
+  			</section>
+
+				<section>
+					<h2>App Configuration</h2>
+					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
+					<br><br>
+					<p>Deeper dive into confd during demo / workshop.
+  			</section>
+
+				<section>
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
  						<li>Optimizing Dockerfiles
  						<li>Docker vs Config Management
- 						<li>Logging, Monitoring, and Metrics
+ 						<li>Logging and Metrics
  						<li>Running multiple processes in a container
  						<li>App Configuration via ENV or service discovery
  						<li><b>Demo / Workshop</b>
  					</ul>
+				</section>
+
+				<section>
+					<h2>Demo / Workshop</h2>
+					<br><br>
+					<a href="https://github.com/factorish/factorish">Factorish - Example App</a>
 				</section>
 
 				<section>
