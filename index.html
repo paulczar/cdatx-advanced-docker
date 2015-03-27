@@ -45,7 +45,7 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Container Days ATX</h2>
 					<h3>Advanced Docker Training</h3>
 					<p>
@@ -53,18 +53,18 @@
 					</p>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Who Am I ?</h2>
  					<p><img src="images/sysadmin.jpg"><br>
  					<p>Cloud Engineer - BlueBox Cloud
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
  					<h2>Blue Box Cloud</h2>
  					<p><img class="stretch" src="images/bluebox-cloud.png" width="66%" height="66%">
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -72,12 +72,13 @@
  						<li>Docker vs Config Management
  						<li>Logging and Metrics
  						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -85,17 +86,18 @@
  						<li>Docker vs Config Management
  						<li>Logging and Metrics
  						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 					<br><br>
 				  <p><a href="http://tech.paulcz.net/2015/03/optimizing-your-dockerfiles/">Blog Post</a>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 					<br><br>
 				  <ul>
@@ -104,7 +106,7 @@
 				    <li>Dockerfile != $ curl | sudo bash
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 <pre class="stretch"><code>
 FROM ubuntu:latest
@@ -132,7 +134,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				</section>
 
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Order Matters</h3>
 					<br><br>
@@ -144,7 +146,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li>Smart ordering can save minutes
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Order Matters</h3>
 					<br><br>
@@ -157,7 +159,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				</section>
 
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Know your commands</h3>
 					<br><br>
@@ -166,7 +168,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li><b>WORKDIR</b>, <b>CMD</b> are cheap
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Choose your base images wisely</h3>
 					<br><br>
@@ -175,7 +177,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li>ubuntu:trusty + busybox > 2 x Ubuntu:trusty
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Layers are your friend</h3>
 					<br><br>
@@ -186,7 +188,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li>Create your own common base image from when lots of shared layers.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Cheat!</h3>
 					<br><br>
@@ -195,7 +197,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li>Once locked in, then move them up.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 				  <h3>Volume Containers</h3>
 					<br><br>
@@ -206,11 +208,11 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 				    <li>Volume container now contains the Data <i>and</i> the Application.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				<img src="images/pop-quiz-hotshot.jpg">
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 				  <h2>Optimizing Dockerfiles</h2>
 <pre class="stretch"><code>
 FROM ubuntu:latest
@@ -237,14 +239,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 </code></pre>
 				</section>
 
-				<section>
-				  <h2>Optimizing Dockerfiles</h2>
-					<br><br>
-					<br><br>
-				  <p>Walkthrough example Dockerfiles on blog...
-				</section>
-
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -252,23 +247,24 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
  						<li><b>Docker vs Config Management</b>
  						<li>Logging and Metrics
  						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<br><br>
 					<p>"I don't need Config Management now that I have Docker."
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<br><br><img src="images/cm_killer.png">
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<br><br>
 					<p>You probably shouldn't be trusting docker [yet] for managing long term persistent data.
@@ -279,7 +275,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<br><br>
 					<p>Persistent data stores and other infrastructure services have to be managed by something.
@@ -289,7 +285,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 					  <li>Ansible or Cloud Formations for RDS, ELB, etc.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<h3>Chef and Docker</h3>
 					<br><br>
@@ -299,7 +295,7 @@ CMD ["/home/docker/tor-browser_en-US/start-tor-browser"]
 					<pre><code>include_recipe "docker::default"</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<pre class='stretch'><code>
 docker_image 'registry' do
@@ -325,7 +321,7 @@ end
 </code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<pre class='stretch'><code>
 git "#{Chef::Config[:file_cache_path]}/docker-testcontainerd" do
@@ -339,32 +335,32 @@ end
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<br><br>
 					<p>Almost anything that can be done with docker can be done via the docker cookbook.
 					<p>Puppet and Ansible both have a similar story.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<h3>Config Management in the container ?</h3>
 					<br><br>
 					  <p>You probably shouldn't...
 					  <p>But if it makes sense in your use case ... go for it.
-					  <p>Consider <a href="https://docs.chef.io/containers.html">Chef for Containers</a> if you want to do this, it will
+					  <p>Consider <a href="https://docs.chef.io/resource_chef_container.html">Chef for Containers</a> if you want to do this, it will
 					  help deal with managing services etc.
 					  <p><a href="http://ringo.de-smet.name/2015/03/keep-chef-out-of-your-docker-containers/">Run Chef from a volume mount</a> so that it doesn't actually live in your container.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<h3>Config Management to build images ?</h3>
 					<br><br>
 					<p>If you're already using a tool like Packer to create images with Config Management, you can probably switch it to build Docker images very easily.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Docker vs Config Management</h2>
 					<h3>ChefDK in a container?</h3>
 					<br><br>
@@ -376,7 +372,7 @@ $ docker exec -ti chefdk rake test
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -384,24 +380,25 @@ $ docker exec -ti chefdk rake test
  						<li>Docker vs Config Management
  						<li><b>Logging and Metrics</b>
  						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2><b>Logging</b> and Metrics</h2>
 					<br><br>
 					<p>This used to be hard.   It's a lot less hard now.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2><b>Logging</b> and Metrics</h2>
 					<br><br>
 					<p>Try your very best not to ever log to a file in the container.  Otherwise you will probably face logfile management issues.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2><b><b>Logging</b></b> and Metrics</h2>
 					<br><br>
 					<p><a href="https://github.com/gliderlabs/logspout">Logspout</a> by @progrium
@@ -417,7 +414,7 @@ $ docker run -v=/var/run/docker.sock:/tmp/docker.sock \
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2><b>Logging</b> and Metrics</h2>
 					<br><br>
 					<p>But my app doesn't log to stdout/stderr.
@@ -436,7 +433,7 @@ access_log /dev/stdout;
 					</div>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2><b>Logging</b> and Metrics</h2>
 					<br><br>
 					<p>But seriously I can't configure it to log to /dev/stdout
@@ -449,7 +446,13 @@ access_log /dev/stdout;
 					  <li>log to volume mount from host.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
+					<h2><b>Logging</b> and Metrics</h2>
+					<br><br>
+					<p>Logging improvements coming soon!
+				</section>
+
+				<section data-background="images/CD-ATX.png">
 					<h2>Logging and <b>Metrics</b></h2>
 					<br><br>
 					<ul>
@@ -460,7 +463,7 @@ access_log /dev/stdout;
 					<p>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Logging and <b>Metrics</b></h2>
 					<br><br>
 					<p><a href="https://github.com/google/cadvisor">CAdvisor</a> to the rescue.
@@ -477,7 +480,7 @@ sudo docker run \
   			</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Logging and <b>Metrics</b></h2>
 					<h3>CAdvisor</h3>
 					<br><br>
@@ -490,7 +493,7 @@ sudo docker run \
 					  <li>Probably needs to support Graphite.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -498,12 +501,13 @@ sudo docker run \
  						<li>Docker vs Config Management
  						<li>Logging and Metrics
  						<li><b>Running multiple processes in a container</b>
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  						<li>Demo / Workshop
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Multiple Processes</h2>
 					<h3></h3>
 					<br><br>
@@ -511,7 +515,7 @@ sudo docker run \
 					<p>Ignore the nay-sayers ... this is OK.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Multiple Processes</h2>
 					<h3>Backgrounded in a start script</h3>
 					<br><br>
@@ -524,7 +528,7 @@ apache2 -DFOREGROUND
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Multiple Processes</h2>
 					<h3>Backgrounded in a start script</h3>
 					<br><br>
@@ -537,7 +541,7 @@ apache2 -DFOREGROUND
   				</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Multiple Processes</h2>
 					<h3>Init system ... Runit</h3>
 					<br><br>
@@ -546,10 +550,10 @@ apache2 -DFOREGROUND
 					  <li>place executable script in /etc/services/[NAME]/run
 					  <li>restarts processes on exit/crash
 					  <li>`$ docker exec wordpress service apache2 restart`
-					  <li>still has Zombie Process issue.
+					  <li>handles zombie processes ( I think! )
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Zombie Processess</h2>
 					<br><br>
 					<p><a href="https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/">Docker and the pid 1 zombie reaping problem</a>
@@ -558,9 +562,10 @@ apache2 -DFOREGROUND
 					  <li>Parent process must explicitly wait for child process termination.
 					  <li>Is this really a big deal?  Probably not...
 					  <li>However it can be avoided - <a href="https://github.com/phusion/baseimage-docker/blob/master/image/bin/my_init">Phusion - my_init</a>
+					  <li>myinit when called with no arguments will start runit and let runit handle service mangement.
 				</section>
 
-  			<section>
+  			<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -568,26 +573,73 @@ apache2 -DFOREGROUND
  						<li>Docker vs Config Management
  						<li>Logging and Metrics
  						<li>Running multiple processes in a container
+ 						<li><b>Container Centric OSes</b>
+ 						<li>App Configuration via ENV or service discovery
+ 						<li>Demo / Workshop
+ 					</ul>
+				</section>
+
+				<section data-background="images/CD-ATX.png">
+					<h2>Container Centric OSes</h2>
+					<br><br>
+					<ul>
+					  <li><b>CoreOS</b>
+					  <li>Atomic
+					  <li>Snappy ( Ubuntu Core )
+					  <li>RancherOS ( brand new! )
+				</section>
+
+				<section data-background="images/CD-ATX.png">
+					<h2>CoreOS</h2>
+					<br><br>
+					<ul>
+					  <li>Free with pay for support & premium features
+					  <li>A fork of ChromeOS
+					  <li>FastPatch for updates
+					  <li>No package manager!
+					  <li>Clustering support.
+					  <li>Rocket
+				</section>
+
+				<section data-background="images/CD-ATX.png">
+					<h2>CoreOS</h2>
+					<h3>Clustering Support</h3>
+					<br><br>
+					<ul>
+					  <li>etcd
+					  <li>fleet
+					  <li>flannel*
+				</section>
+
+  			<section data-background="images/CD-ATX.png">
+					<h2>Agenda</h2>
+					<br><br>
+ 					<ul>
+ 						<li>Optimizing Dockerfiles
+ 						<li>Docker vs Config Management
+ 						<li>Logging and Metrics
+ 						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li><b>App Configuration via ENV or service discovery</b>
  						<li>Demo / Workshop
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>via ENV or service discovery</h3>
 					<br><br>
 					<p>I have an application in a container ... but how do I actually configure it ?
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>During `docker build`</h3>
 					<br><br>
 					<p>This is the simplest use case, if your configuration file is very static just use ADD in your `Dockerfile` to put it in the correct place.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>via volume mount</h3>
 					<br><br>
@@ -598,7 +650,7 @@ docker run -d -v /my/app/apache2/httpd.conf:/etc/apache2/httpd.conf myapp
 					<p>It's OK to do this, but be aware of the potential security implications.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>As part of a start script</h3>
 					<br><br>
@@ -610,17 +662,17 @@ exec apache2 -DFOREGROUND
 					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
 					<br><br>
 					<ul>
 					<li>lightweight templating engine written in GO.
 					<li>Take key/value pairs from a number of supported storage engines.
-					<li>Environment Variables, ETCD, Consular, etc.
+					<li>Environment Variables, ETCD, Consul, etc.
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
 					<br><br>
@@ -636,13 +688,13 @@ RUN \
   				</code></pre>
   			</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
 					<br><br>
 					<pre class="stretch"><code>
 #!/bin/bash
-set -xeo pipefail
+
 BACKEND=${BACKEND:-env}
 until confd -onetime -backend=${BACKEND} -confdir=/etc/confd	; do
   echo "echo ==> ${APP_NAME}: waiting for confd to write initial templates..."
@@ -653,7 +705,7 @@ exec apache2 -DFOREGROUND
   				</code></pre>
   			</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
 					<br><br>
@@ -664,14 +716,14 @@ $ docker run -d -p 8080 \
   				</code></pre>
   			</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>App Configuration</h2>
 					<h3>Using <a href="https://github.com/kelseyhightower/confd">confd</a></h3>
 					<br><br>
 					<p>Deeper dive into confd during demo / workshop.
   			</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Agenda</h2>
 					<br><br>
  					<ul>
@@ -679,28 +731,57 @@ $ docker run -d -p 8080 \
  						<li>Docker vs Config Management
  						<li>Logging and Metrics
  						<li>Running multiple processes in a container
+ 						<li>Container Centric OSes
  						<li>App Configuration via ENV or service discovery
  						<li><b>Demo / Workshop</b>
  					</ul>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
 					<h2>Demo / Workshop</h2>
 					<br><br>
-					<a href="https://github.com/factorish/factorish">Factorish - Example App</a>
+					<a href="https://github.com/factorish/factorish/blob/master/example/Dockerfile">Factorish - Example App</a>
+					<br><br>
+					<p>docker pull factorish/example
 				</section>
 
-				<section>
-					<h2>Links</h2>
-					<p><a href="http://tech.paulcz.net">http://tech.paulcz.net</a></p><br>
-					<ul>
-						<li><a href="http://tech.paulcz.net">Link 1</a></li>
-					</ul>
+				<section data-background="images/CD-ATX.png">
+					<h2>Demo / Workshop</h2>
+					<pre class="stretch"><code>
+$ docker run -d -e SERVICES_EXAMPLE_TEXT=father \
+  -p 8080:8080 --name father factorish/example
+$ curl localhost:8080 # or IP of boot2docker
+
+$ docker run -d -e SERVICES_EXAMPLE_TEXT=mother \
+  -p 8081:8080 --name mother factorish/example
+$ curl localhost:8080 # or IP of boot2docker
+
+$ docker kill father mother
+$ docker rm father mother
+
+					</code></pre>
 				</section>
 
-				<section>
+				<section data-background="images/CD-ATX.png">
+					<h2>Demo / Workshop</h2>
+					<pre class="stretch"><code>
+$ vagrant up
+.....
+$ vagrant ssh core-01
+$ etcd ctl / --recursive
+
+					</code></pre>
+				</section>
+
+				<section data-background="images/CD-ATX.png">
+					<h1>Got Questions?</h1>
+				</section>
+
+				<section data-background="images/CD-ATX.png">
 					<h1>THE END</h1>
 					<h3>BY Paul Czarkowski  / @pczarkowski </h3>
+					<br><br>
+					<h3>For Container Days ATX 2015!</h3>
 				</section>
 
 			</div>
@@ -719,7 +800,6 @@ $ docker run -d -p 8080 \
 				progress: true,
 				history: true,
 				center: true,
-
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
